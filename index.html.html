@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leads Orgánicos Entrelingo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- =====================================================================
+     DATOS DEL DASHBOARD — se editan AQUÍ (ver README.md)
+     Cada periodo (una semana, o el corte que definas) lleva sus UTMs,
+     sus citas por origen y su análisis. El dashboard suma los periodos.
+     NO pegues nombres, correos ni teléfonos: el sitio es público.
+     ===================================================================== -->
+<script>
+window.DASHBOARD = {
+  actualizado: "2026-09-23",
+  moneda: "AUD",
+
+  flujos: [
+    {"id": "rayos_x", "nombre": "Rayos X", "marca": "AustraliaPRO", "descripcion": "Llamada exploratoria gratis de 20 minutos", "ventaDe": "consultorías migratorias", "etapas": ["citas", "asistieron", "ventas"], "color": 1},
+    {"id": "sesion", "nombre": "Sesión de diagnóstico", "marca": "SkillsPRO", "descripcion": "Sesión gratis de 45 minutos sobre skills assessment", "ventaDe": "skills assessment y consultorías", "etapas": ["citas", "asistieron", "ventas"], "color": 2},
+    {"id": "traducciones", "nombre": "Traducciones", "marca": "Entrelingo", "descripcion": "Landing de traducciones y cotizador", "ventaDe": "traducciones certificadas", "etapas": ["visitas", "ventas"], "color": 3}
+  ],
+
+  periodos: [
+    {
+      id: "sep-1-23", etiqueta: "Septiembre (1–23)", desde: "2026-09-01", hasta: "2026-09-23",
+      nota: "Visitas y conversiones: GA4, diario del 1 al 23 de septiembre (el enlace de bibliografía de Instagram solo tiene dato hasta el 11). Citas de Rayos X: log de Bitrix24, todo lo que viene de Instagram (bio, ManyChat, historias, feed, influencer y setters) y de YouTube, contado por persona única. Citas de la Sesión de diagnóstico: agendas de Bitrix24 de referidos Mafe, orgánico Entrelingo y pop up.",
+
+      /* Ventas sin cita e ingresos en AUD por flujo (null = no reportado) */
+      flujos: { rayos_x: { ventas: null, ingresos: null }, sesion: { ventas: null, ingresos: null }, traducciones: { ventas: 1, ingresos: 294.62 } },
+
+      /* UTMs de GA4. dias = visitas por día desde "desde" (null si no hay dato diario) */
+      utms: [
+        {"flujo": "rayos_x", "nombre": "Bio Instagram Mafe", "cuenta": "Mafe", "canal": "Bio Instagram", "utm": "instagram / referral / rayos_x_migratorio / mafe_bio", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 58, "conversiones": 12, "ingresos": 0, "dias": [0, 1, 4, 2, 4, 1, 1, 5, 1, 2, 2, 4, 3, 2, 5, 0, 2, 6, 2, 4, 4, 3, 0]},
+        {"flujo": "sesion", "nombre": "Bio Instagram Mafe (etiqueta nueva, desde 11-sep)", "cuenta": "Mafe", "canal": "Bio Instagram", "utm": "instagram / referral / sister_brands / mafe", "destino": "go.skillspro -> skillspro.entrelingo.com", "visitas": 36, "conversiones": 9, "ingresos": 0, "dias": [0, 0, 1, 1, 0, 1, 3, 0, 0, 1, 8, 5, 1, 0, 2, 0, 1, 2, 0, 0, 3, 1, 6]},
+        {"flujo": "sesion", "nombre": "Bio Instagram Mafe (etiqueta anterior)", "cuenta": "Mafe", "canal": "Bio Instagram", "utm": "instagram_bio / referral / sister_brands / mafe", "destino": "go.skillspro (dominio viejo)", "visitas": 32, "conversiones": 5, "ingresos": 0, "dias": [1, 6, 5, 3, 6, 0, 1, 5, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]},
+        {"flujo": "sesion", "nombre": "Bio Instagram Entrelingo (etiqueta anterior)", "cuenta": "Entrelingo", "canal": "Bio Instagram", "utm": "instagram_BIO / organic_social / entrelingo_organico / formato_tema", "destino": "go.skillspro", "visitas": 14, "conversiones": 2, "ingresos": 0, "dias": [1, 2, 1, 1, 2, 3, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "sesion", "nombre": "Facebook Entrelingo", "cuenta": "Entrelingo", "canal": "Facebook", "utm": "facebook / organic_social / entrelingo_organico / formato_tema", "destino": "go.skillspro + skillspro.entrelingo.com", "visitas": 12, "conversiones": 2, "ingresos": 0, "dias": [5, 2, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "sesion", "nombre": "Historias Instagram Entrelingo", "cuenta": "Entrelingo", "canal": "Historias Instagram", "utm": "instagram / organic_social / entrelingo_organico / historias", "destino": "go.skillspro + skillspro.entrelingo.com", "visitas": 4, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0]},
+        {"flujo": "sesion", "nombre": "Bio Instagram Entrelingo (etiqueta nueva)", "cuenta": "Entrelingo", "canal": "Bio Instagram", "utm": "instagram / organic_social / entrelingo_organico / formato_tema", "destino": "skillspro.entrelingo.com", "visitas": 2, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "sesion", "nombre": "Historias Instagram Mafe", "cuenta": "Mafe", "canal": "Historias Instagram", "utm": "instagram / referral / sister_brands / historias", "destino": "go.skillspro", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 02/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 02/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 4, "conversiones": 1, "ingresos": 0, "dias": [0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · australia2026 · pieza 02/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-australia2026 / mafeorganico / term 02/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 2, "conversiones": 2, "ingresos": 0, "dias": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 03/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 03/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 3, "conversiones": 1, "ingresos": 0, "dias": [0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · australia2026 · pieza 03/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-australia2026 / mafeorganico / term 03/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Entrelingo · pieza 03/09", "cuenta": "Entrelingo", "canal": "ManyChat", "utm": "manychat / entrelingo / term 03/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · australia2026 · pieza 06/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-australia2026 / mafeorganico / term 06/09/26", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 1, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 07/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 07/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Entrelingo · pieza 07/09", "cuenta": "Entrelingo", "canal": "ManyChat", "utm": "manychat / entrelingo / term 07/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 1, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 08/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 08/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 8, "conversiones": 6, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Entrelingo · pieza 09/09", "cuenta": "Entrelingo", "canal": "ManyChat", "utm": "manychat / entrelingo / term 09/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 9, "conversiones": 2, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 11/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 11/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 3, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · australia2026 · pieza 12/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-australia2026 / mafeorganico / term 12/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Entrelingo · pieza 14/09", "cuenta": "Entrelingo", "canal": "ManyChat", "utm": "manychat / entrelingo / term 14/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · papá en AU · pieza 15/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-papa-en-au / mafeorganico / term 15/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 16, "conversiones": 1, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 1, 0, 3, 3, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 16/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 16/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 1, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · pieza 17/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat / mafeorganico / term 17/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 6, "conversiones": 3, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 0, 1, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "ManyChat Mafe · australia2026 · pieza 18/09", "cuenta": "Mafe", "canal": "ManyChat", "utm": "manychat-australia2026 / mafeorganico / term 18/09", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 2, "conversiones": 1, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0]},
+        {"flujo": "traducciones", "nombre": "YouTube · visas rechazadas (landing traducciones)", "cuenta": "Entrelingo", "canal": "YouTube", "utm": "youtube / cotizador / youtube / visasrechazadas", "destino": "go.entrelingo.com/traducciones", "visitas": 9, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]},
+        {"flujo": "rayos_x", "nombre": "YouTube Mafe · experiencia visas", "cuenta": "Mafe", "canal": "YouTube", "utm": "youtube / social / mafe / experiencia / visas", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 5, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "YouTube Mafe · carro de Mafe y Julio 2", "cuenta": "Mafe", "canal": "YouTube", "utm": "youtube / rayosx / carridemafeyjulio2 / youtubeorganico", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 5, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 1]},
+        {"flujo": "traducciones", "nombre": "YouTube · descripción del canal (cotizador)", "cuenta": "Entrelingo", "canal": "YouTube", "utm": "youtube / social / canal / bibliografia", "destino": "cotiza.entrelingo.com", "visitas": 4, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "rayos_x", "nombre": "YouTube Mafe · reglas y cambios de visas", "cuenta": "Mafe", "canal": "YouTube", "utm": "youtube / rayosx / mafe / reglas / visascambios", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 4, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "sesion", "nombre": "YouTube Entrelingo · descripción", "cuenta": "Entrelingo", "canal": "YouTube", "utm": "youtube / organic_social / entrelingo_organico / formato_tema", "destino": "go.skillspro + skillspro.entrelingo.com", "visitas": 5, "conversiones": 1, "ingresos": 0, "dias": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 1, 0, 0, 0, 0]},
+        {"flujo": "sesion", "nombre": "YouTube · descripción del canal", "cuenta": "Entrelingo", "canal": "YouTube", "utm": "youtube / social / canal / bibliografia", "destino": "www.skillspro-skillsassessment.com", "visitas": 1, "conversiones": 0, "ingresos": 0, "dias": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {"flujo": "traducciones", "nombre": "Instagram Entrelingo · bibliografía (cotizador)", "cuenta": "Entrelingo", "canal": "Instagram", "utm": "instagram / social / bibliografia / entrelingo", "destino": "cotiza.entrelingo.com", "visitas": 21, "conversiones": 1, "ingresos": 294.62, "dias": null, "nota": "Dato del 1 al 11 sep (informe lote 2); el informe diario no trae esta UTM. La venta fue el 8 sep."}
+      ],
+
+      /* Citas por origen (Bitrix24). asistieron incluye las vendidas. pendientes y perdidas completan el total */
+      citas: [
+        {"flujo": "rayos_x", "origen": "Influencer Angie", "cuenta": "Angie (influencer)", "canal": "Influencer", "citas": 33, "asistieron": 15, "ventas": 7, "pendientes": 0, "perdidas": 18},
+        {"flujo": "rayos_x", "origen": "ManyChat Mafe", "cuenta": "Mafe", "canal": "ManyChat", "citas": 7, "asistieron": 5, "ventas": 2, "pendientes": 0, "perdidas": 2},
+        {"flujo": "rayos_x", "origen": "Bio Instagram Mafe", "cuenta": "Mafe", "canal": "Bio Instagram", "citas": 6, "asistieron": 3, "ventas": 2, "pendientes": 0, "perdidas": 3},
+        {"flujo": "rayos_x", "origen": "Setter · Mafe", "cuenta": "Mafe", "canal": "Setter (DM)", "citas": 6, "asistieron": 3, "ventas": 1, "pendientes": 0, "perdidas": 3},
+        {"flujo": "rayos_x", "origen": "Feed Instagram con ManyChat", "cuenta": "Sin especificar", "canal": "Feed Instagram", "citas": 4, "asistieron": 4, "ventas": 0, "pendientes": 0, "perdidas": 0},
+        {"flujo": "rayos_x", "origen": "Historias Instagram", "cuenta": "Sin especificar", "canal": "Historias Instagram", "citas": 2, "asistieron": 1, "ventas": 1, "pendientes": 0, "perdidas": 1},
+        {"flujo": "rayos_x", "origen": "YouTube", "cuenta": "—", "canal": "YouTube", "citas": 1, "asistieron": 1, "ventas": 0, "pendientes": 0, "perdidas": 0},
+        {"flujo": "rayos_x", "origen": "Setter · Entrelingo", "cuenta": "Entrelingo", "canal": "Setter (DM)", "citas": 1, "asistieron": 1, "ventas": 0, "pendientes": 0, "perdidas": 0},
+        {"flujo": "rayos_x", "origen": "ManyChat Entrelingo", "cuenta": "Entrelingo", "canal": "ManyChat", "citas": 1, "asistieron": 1, "ventas": 1, "pendientes": 0, "perdidas": 0},
+        {"flujo": "sesion", "origen": "Referidos Mafe · instagram", "cuenta": "Mafe", "canal": "Instagram", "citas": 5, "asistieron": 0, "ventas": 0, "pendientes": 4, "perdidas": 1, "estados": {"Invitado": 3, "Programada": 1, "Cancelado": 1}},
+        {"flujo": "sesion", "origen": "Referidos Mafe · instagram_bio", "cuenta": "Mafe", "canal": "Bio Instagram", "citas": 2, "asistieron": 1, "ventas": 0, "pendientes": 0, "perdidas": 1, "estados": {"Ejecutada": 1, "Cancelado": 1}},
+        {"flujo": "sesion", "origen": "Orgánico Entrelingo · facebook", "cuenta": "Entrelingo", "canal": "Facebook", "citas": 3, "asistieron": 1, "ventas": 0, "pendientes": 2, "perdidas": 0, "estados": {"Invitado": 1, "Programada": 1, "Ejecutada": 1}},
+        {"flujo": "sesion", "origen": "Orgánico Entrelingo · instagram_BIO", "cuenta": "Entrelingo", "canal": "Bio Instagram", "citas": 3, "asistieron": 1, "ventas": 0, "pendientes": 2, "perdidas": 0, "estados": {"Invitado": 1, "Programada": 1, "Ejecutada": 1}},
+        {"flujo": "sesion", "origen": "Orgánico Entrelingo · youtube", "cuenta": "Entrelingo", "canal": "YouTube", "citas": 1, "asistieron": 0, "ventas": 0, "pendientes": 1, "perdidas": 0, "estados": {"Invitado": 1}},
+        {"flujo": "sesion", "origen": "Pop up", "cuenta": "Pop up", "canal": "Pop up web", "citas": 12, "asistieron": 5, "ventas": 1, "pendientes": 6, "perdidas": 1, "estados": {"Invitado": 1, "Programada": 4, "Inasistente": 1, "Ejecutada": 4, "Consultoría Migratoria": 1, "Llamada": 1}}
+      ],
+
+      notas: {
+        resumen: {
+          "analisis": "Del 1 al 23 de septiembre el orgánico llevó 268 visitas con UTM a los tres flujos y 49 conversiones en GA4. En citas hubo 87 personas agendadas (61 en Rayos X y 26 en la Sesión de diagnóstico), 42 asistieron y se cerraron 16 ventas: 14 consultorías desde Rayos X, 1 consultoría migratoria desde una Sesión de diagnóstico que llegó por el pop up y 1 traducción por 294,62 AUD. La influencer Angie es el origen individual con más citas (33) y ventas (7). Las cuentas de Mafe suman 26 citas y 5 ventas entre bio, ManyChat y setters. El pop up ya trae 12 citas a la Sesión de diagnóstico.",
+          "solucion": [
+            "Rayos X: casi la mitad de los agendados no asiste (27 de 61). Reforzar la confirmación y los recordatorios antes de la llamada.",
+            "Influencer Angie: trae la mitad de las ventas de Rayos X. Conviene medir sus enlaces con UTM en GA4 para ver cuántas visitas genera.",
+            "Sesión de diagnóstico: confirmar las 15 citas pendientes y llevar el pop up a más páginas.",
+            "Reportar el valor en AUD de cada venta de Rayos X y de la Sesión para comparar los flujos por ingreso."
+          ],
+          "fuente": "UTMs bio, ManyChat y YouTube (GA4, diario 1–23 sep 2026) · Log de citas Rayos X (Bitrix24, sep 2026, personas únicas) · Agenda Sesión de diagnóstico (Bitrix24, sep 2026)."
+        },
+        rayos_x: {
+          "analisis": "En septiembre agendaron Rayos X 61 personas desde Instagram y YouTube (60 de Instagram y 1 de YouTube). Asistieron 34 (55,7 %) y se vendieron 14 consultorías: 41,2 % de cierre sobre asistentes. La influencer Angie trae 33 personas, 15 asistencias y 7 ventas: la mitad de las ventas del flujo. Las cuentas de Mafe suman 19 personas y 5 ventas (ManyChat: 7 personas y 2 ventas; bio: 6 y 2; setters: 6 y 1). En GA4, la landing recibió 128 visitas con UTM desde bio de Mafe (58), ManyChat (56) y YouTube (14). Los enlaces de Angie no están en el informe de UTMs, por eso su tráfico no aparece en las visitas.",
+          "solucion": [
+            "Reducir inasistencias: 27 de 61 personas no llegaron a la llamada. Confirmar por WhatsApp apenas agendan, con recordatorio 24 h y 1 h antes.",
+            "Incluir los enlaces de Angie (angie_guarin/referred y rayos_x_migratorio/angie) en el informe de GA4 para medir sus visitas y conversiones.",
+            "Replicar el formato de las piezas de ManyChat del 08/09 y del 17/09 (75 % y 50 % de conversión en GA4) en los próximos reels de Mafe.",
+            "Revisar la pieza 'papá en AU': 16 visitas y solo 1 conversión.",
+            "YouTube trae 14 visitas y 1 cita: poner el llamado a Rayos X en los primeros segundos y en el comentario fijado."
+          ],
+          "fuente": "Log de citas Rayos X (Bitrix24, sep 2026): origen Instagram (orgánico, influencer y setters) y YouTube, contado por persona única · UTMs diario GA4 (1–23 sep 2026), hoja 'Lectura por UTM'."
+        },
+        sesion: {
+          "analisis": "La Sesión de diagnóstico recibió 106 visitas orgánicas con UTM. La bio de Mafe es la fuente principal (68 visitas y 14 conversiones, repartidas en dos etiquetas por la migración de dominio del 11 de septiembre), seguida por la bio de Entrelingo (16), Facebook (12) y YouTube (6). En Bitrix hay 26 citas: 12 del pop up, 7 de referidos de Mafe y 7 del orgánico de Entrelingo. Solo 8 se ejecutaron, 3 se cancelaron o no asistieron y 15 siguen pendientes (invitado, programada o llamada). La única venta salió del pop up, y fue una consultoría migratoria, no un servicio de skills assessment.",
+          "solucion": [
+            "Hacer seguimiento a las 15 citas pendientes: 7 están en 'Invitado' y todavía no tienen fecha.",
+            "Extender el pop up a más landings de SkillsPRO: trajo el 46 % de las citas del flujo y 5 de las 8 sesiones ejecutadas.",
+            "Revisar la landing a la que apunta la bio de Mafe: 68 visitas se convierten en solo 7 citas.",
+            "Definir con el equipo comercial la oferta de SkillsPRO al cerrar la sesión: la única venta fue una consultoría migratoria.",
+            "Unificar las UTM tras la migración de dominio: el mismo enlace de bio aparece en dos filas (instagram e instagram_bio)."
+          ],
+          "fuente": "UTMs diario GA4 (1–23 sep 2026) · Agenda referidos Mafe, agenda orgánico Entrelingo y pop up (Bitrix24, estado de consultoría, septiembre)."
+        },
+        traducciones: {
+          "analisis": "Traducciones sumó 34 visitas orgánicas: 21 desde Instagram con el enlace de bibliografía hacia el cotizador (dato hasta el 11 de septiembre), 9 desde el video de YouTube de visas rechazadas hacia la landing go.entrelingo.com/traducciones y 4 desde la descripción del canal de YouTube hacia el cotizador. Hubo 1 venta por 294,62 AUD, que llegó desde Instagram. Las 13 visitas de YouTube no generaron conversiones.",
+          "solucion": [
+            "Pedir el dato diario del enlace de bibliografía de Instagram hasta el 23 de septiembre: el informe nuevo no lo incluye.",
+            "Revisar que la landing de traducciones responda a quien viene del video de visas rechazadas (9 visitas, 0 conversiones).",
+            "Crear una UTM de Instagram hacia go.entrelingo.com/traducciones para comparar la landing con el cotizador."
+          ],
+          "fuente": "UTMs diario GA4 (1–23 sep 2026) · Informe UTMs lote 2 (1–11 sep 2026) para el enlace de bibliografía."
+        }
+      }
+    }
+
+    /* ---------------- PLANTILLA DE PERIODO (copiar y pegar arriba, con una coma antes) ----------------
+    ,{
+      id: "sep-24-30", etiqueta: "Semana 24–30 sep", desde: "2026-09-24", hasta: "2026-09-30",
+      nota: "",
+      flujos: { rayos_x: { ventas: null, ingresos: null }, sesion: { ventas: null, ingresos: null }, traducciones: { ventas: 0, ingresos: null } },
+      utms: [
+        // { "flujo": "rayos_x", "nombre": "Bio Instagram Mafe", "cuenta": "Mafe", "canal": "Bio Instagram", "utm": "instagram / referral / rayos_x_migratorio / mafe_bio", "destino": "go.entrelingo.com/rayx-migratorio", "visitas": 0, "conversiones": 0, "ingresos": 0, "dias": [0,0,0,0,0,0,0] },
+      ],
+      citas: [
+        // { "flujo": "rayos_x", "origen": "Bio Instagram Mafe", "cuenta": "Mafe", "canal": "Bio Instagram", "citas": 0, "asistieron": 0, "ventas": 0, "pendientes": 0, "perdidas": 0 },
+        // { "flujo": "sesion", "origen": "Pop up", "cuenta": "Pop up", "canal": "Pop up web", "citas": 0, "asistieron": 0, "ventas": 0, "pendientes": 0, "perdidas": 0, "estados": { "Invitado": 0, "Programada": 0, "Ejecutada": 0 } },
+      ],
+      notas: {
+        resumen:      { analisis: "", solucion: [""], fuente: "" },
+        rayos_x:      { analisis: "", solucion: [""], fuente: "" },
+        sesion:       { analisis: "", solucion: [""], fuente: "" },
+        traducciones: { analisis: "", solucion: [""], fuente: "" }
+      }
+    }
+    ------------------------------------------------------------------------------------------------ */
+  ],
+
+  /* Clientes de AustraliaPRO (Consultoría Estándar). Sin nombres: el sitio es público */
+  clientes: {
+    "descripcion": "Cruce del export de leads (22 sep 2026) con la hoja General de Clientes. Solo Consultoría Estándar (sin consultorías de 30 min). Fuentes ajustadas manualmente.",
+    "corte": "2026-09-23",
+    "registros": [
+      { "n": 1, "fecha": "26/3/2026", "fuente": "SkillsPRO", "valor": 275, "status": "Completada" },
+      { "n": 2, "fecha": "10/6/2026", "fuente": "Instagram Mafe", "valor": 275, "status": "Completada" },
+      { "n": 3, "fecha": "9/7/2026", "fuente": "Instagram Mafe", "valor": 299, "status": "Completada" },
+      { "n": 4, "fecha": "10/7/2026", "fuente": "Instagram Mafe", "valor": 299, "status": "Completada" },
+      { "n": 5, "fecha": "24/7/2026", "fuente": "Instagram", "valor": 275, "status": "Completada" },
+      { "n": 6, "fecha": "28/7/2026", "fuente": "SkillsPRO", "valor": 275, "status": "Completada" },
+      { "n": 7, "fecha": "28/7/2026", "fuente": "SkillsPRO", "valor": 275, "status": "Completada" },
+      { "n": 8, "fecha": "3/8/2026", "fuente": "Webinar", "valor": 299, "status": "Completada" },
+      { "n": 9, "fecha": "10/8/2026", "fuente": "Instagram", "valor": 328, "status": "Completada" },
+      { "n": 10, "fecha": "12/8/2026", "fuente": "Rayos X", "valor": 299, "status": "Completada" },
+      { "n": 11, "fecha": "19/8/2026", "fuente": "Rayos X", "valor": 275, "status": "Completada" },
+      { "n": 12, "fecha": "29/8/2026", "fuente": "Instagram", "valor": 329, "status": "Completada" },
+      { "n": 13, "fecha": "3/9/2026", "fuente": "TikTok", "valor": 329, "status": "Completada" },
+      { "n": 14, "fecha": "7/9/2026", "fuente": "Rayos X", "valor": 275, "status": "Completada" },
+      { "n": 15, "fecha": "8/9/2026", "fuente": "Rayos X", "valor": 275, "status": "Completada" },
+      { "n": 16, "fecha": "10/9/2026", "fuente": "Rayos X", "valor": 275, "status": "Completada" },
+      { "n": 17, "fecha": "11/9/2026", "fuente": "Instagram Mafe", "valor": 299, "status": "Completada" },
+      { "n": 18, "fecha": "19/9/2026", "fuente": "Instagram Mafe", "valor": 329, "status": "Asignada" },
+      { "n": 19, "fecha": "21/9/2026", "fuente": "Facebook", "valor": 323, "status": "Asignada" }
+    ],
+    "notas": {
+      "analisis": "AustraliaPRO tiene 19 clientes de Consultoría Estándar que llegaron como leads, por 5.608 AUD: 4.956 AUD ya completados y 652 AUD asignados, pendientes de completar. Instagram (la cuenta de Mafe más la de Entrelingo) trae 8 de los 19 clientes y 2.433 AUD, el 43 % del total. Instagram Mafe es la fuente con más ingresos (5 clientes, 1.501 AUD), seguida de Rayos X (5 clientes, 1.399 AUD). Septiembre es el mes con más clientes registrados (7, por 2.105 AUD), y 3 de ellos llegaron por Rayos X. El ticket promedio es de 295 AUD.",
+      "solucion": [
+        "Cruzar este listado con el log de citas de Rayos X: el log marca 14 ventas en septiembre, pero aquí solo aparecen 3 clientes de Rayos X registrados en el mes. La diferencia puede venir de consultorías de 30 minutos, que este listado excluye, o de clientes registrados antes de septiembre.",
+        "Hacer seguimiento a las 2 consultorías asignadas (Instagram Mafe y Facebook, 652 AUD) para que pasen a completadas.",
+        "Unificar 'Instagram' e 'Instagram Mafe' con la misma regla de UTM que se usa en GA4, para saber qué cuenta trajo a cada cliente.",
+        "Registrar la fuente automáticamente desde la UTM en Bitrix: hoy las fuentes de este listado se ajustan a mano."
+      ],
+      "fuente": "Leads convertidos en clientes – AustraliaPRO (export de leads del 22 sep 2026 cruzado con la hoja General de Clientes, generado el 23 sep 2026)."
+    }
+  }
+};
+</script>
+<!-- ======================= FIN DE LOS DATOS ======================= -->
+
+<style>
+:root{
+  color-scheme: light;
+  --navy:#0D1E39; --teal:#39BB9B; --yellow:#FED41E; --purple:#5A2899; --orange:#F98D21;
+  --bg:#f3f5f9; --surface:#ffffff; --surface-2:#eef1f6; --border:#dde3ec;
+  --text:#0D1E39; --text-2:#4a5670; --muted:#76819a;
+  --s1:#39BB9B; --s2:#6A3AAE; --s3:#F98D21;
+  --grid:#e4e8ef; --hero:#0D1E39; --hero-2:#16294a;
+  --sol-bg:#eaf7f3; --sol-border:#39BB9B; --ana-border:#5A2899;
+  --warn-bg:#fff8d9; --warn-border:#FED41E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0a1528; --surface:#13223d; --surface-2:#1b2d4d; --border:#26395c;
+    --text:#ffffff; --text-2:#c2cbe0; --muted:#8b97b3;
+    --s1:#2FA586; --s2:#9B6FE0; --s3:#DA7410;
+    --grid:#223457; --hero:#07101f; --hero-2:#0f1d36;
+    --sol-bg:#11302d; --sol-border:#2FA586; --ana-border:#9B6FE0;
+    --warn-bg:#2e2a12; --warn-border:#c9a714;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0a1528; --surface:#13223d; --surface-2:#1b2d4d; --border:#26395c;
+  --text:#ffffff; --text-2:#c2cbe0; --muted:#8b97b3;
+  --s1:#2FA586; --s2:#9B6FE0; --s3:#DA7410;
+  --grid:#223457; --hero:#07101f; --hero-2:#0f1d36;
+  --sol-bg:#11302d; --sol-border:#2FA586; --ana-border:#9B6FE0;
+  --warn-bg:#2e2a12; --warn-border:#c9a714;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Asap,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+code{font-size:12.5px;background:var(--surface-2);padding:1px 5px;border-radius:4px;word-break:break-all}
+
+/* HERO */
+.hero{background:radial-gradient(1200px 400px at 85% -10%, rgba(57,187,155,.35), transparent 60%),radial-gradient(900px 380px at 0% 120%, rgba(90,40,153,.55), transparent 60%),linear-gradient(135deg,var(--hero),var(--hero-2));color:#fff;padding:28px 0 34px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:26px solid rgba(254,212,30,.14)}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-start;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;font-size:14px;color:#cfe9e1}
+.brand .logo{width:34px;height:34px;border-radius:10px;background:var(--teal);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:18px}
+.hero h1{font-size:34px;line-height:1.1;margin:14px 0 6px;letter-spacing:-.01em}
+.hero h1 span{color:var(--yellow)}
+.hero p{margin:0;color:#c9d3e6}
+.hero .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hero select,.hero .btn{font:inherit;font-size:14px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:8px 12px;cursor:pointer}
+.hero select option{color:#0D1E39}
+.hero-kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:26px;position:relative;z-index:1}
+.hk{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;backdrop-filter:blur(4px)}
+.hk .l{font-size:12.5px;color:#c9d3e6;text-transform:uppercase;letter-spacing:.06em}
+.hk .v{font-size:32px;font-weight:800;line-height:1.15;font-variant-numeric:tabular-nums}
+.hk .h{font-size:12.5px;color:#9fb0cf}
+.hk.accent{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+.hk.accent .l,.hk.accent .h{color:#3b3710}
+
+/* TABS */
+.tabs{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(13,30,57,.05)}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{font:inherit;font-weight:600;font-size:14.5px;background:none;border:none;color:var(--text-2);padding:14px 14px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--yellow)}
+.tab:hover{color:var(--text)}
+
+main{padding:24px 0 60px}
+.panel{display:none}
+.panel.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.note{background:var(--warn-bg);border-left:4px solid var(--warn-border);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:14px}
+
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g-6-4{grid-template-columns:1.35fr 1fr}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;min-width:0}
+.card h2{font-size:18px;margin:0 0 2px}
+.card .sub{color:var(--text-2);margin:0 0 14px;font-size:13.5px}
+.sec-title{display:flex;align-items:center;gap:10px;font-size:22px;margin:30px 0 14px}
+.sec-title:first-child{margin-top:0}
+.dot{width:12px;height:12px;border-radius:4px;display:inline-block;flex:none}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--text-2)}
+
+/* Flow header */
+.flow-hero{border-radius:18px;padding:22px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px}
+.flow-hero h2{font-size:28px;margin:4px 0 2px}
+.flow-hero p{margin:0;opacity:.9}
+.flow-hero .fk{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
+.flow-hero .fk > div{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 12px}
+.flow-hero .fk .v{font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.flow-hero .fk .l{font-size:12px;opacity:.9}
+.flow-hero::after{content:"";position:absolute;right:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1)}
+
+/* Analysis / Solution */
+.as{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.ana{border-left:4px solid var(--ana-border)}
+.sol{background:var(--sol-bg);border-color:transparent;border-left:4px solid var(--sol-border)}
+.as h3{display:flex;align-items:center;gap:8px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px}
+.as p{margin:0}
+.as ul{margin:0;padding-left:18px}
+.as li{margin:5px 0}
+.src{font-size:12px;color:var(--muted);margin-top:10px}
+
+/* charts */
+svg{display:block;width:100%;height:auto;overflow:visible}
+.axis text{fill:var(--muted);font-size:12px;font-family:Asap,system-ui,sans-serif}
+.lbl{fill:var(--text);font-size:13px;font-weight:600;font-family:Asap,system-ui,sans-serif}
+.lbl2{fill:var(--text-2);font-size:12.5px;font-family:Asap,system-ui,sans-serif}
+[data-tip]{cursor:default}
+.hov:hover{filter:brightness(1.07)}
+#tip{position:fixed;pointer-events:none;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px 11px;font-size:13px;box-shadow:0 8px 24px rgba(13,30,57,.18);opacity:0;transition:opacity .08s;z-index:50;max-width:280px}
+#tip b{font-weight:700}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--text-2);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:13px;font-weight:600;border:none;background:none;color:var(--text-2);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(13,30,57,.15)}
+.card-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+
+.hb{display:grid;gap:12px}
+.hb-row{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:12px;align-items:center}
+.hb-lab{display:flex;flex-direction:column;line-height:1.25;font-size:14px;min-width:0}
+.hb-lab span{font-size:12.5px;color:var(--text-2)}
+.hb-track{display:flex;align-items:center;gap:8px;height:26px}
+.hb-track i{display:block;height:100%;border-radius:0 5px 5px 0;flex:none;max-width:calc(100% - 44px)}
+.hb-track em{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.hb-row{grid-template-columns:1fr;gap:4px}}
+/* rings */
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.rings .rl{font-size:13px;color:var(--text-2);margin-top:4px;line-height:1.3}
+
+/* tables */
+.table-scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums;vertical-align:middle}
+th{color:var(--text-2);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;background:var(--surface-2)}
+th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}
+td.l,th.l{text-align:left}
+tbody tr:hover{background:var(--surface-2)}
+.cellbar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.cellbar i{display:block;height:8px;border-radius:0 4px 4px 0}
+.tot td{font-weight:800;border-top:2px solid var(--text)}
+.nd{color:var(--muted)}
+.howto ol{margin:0;padding-left:20px}.howto li{margin:6px 0}
+footer{color:var(--muted);font-size:12.5px;padding:24px 16px 40px}
+
+@media (max-width:980px){
+  .hero-kpis{grid-template-columns:repeat(3,1fr)}
+  .g2,.g3,.g-6-4,.as{grid-template-columns:1fr}
+  .flow-hero .fk{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:520px){
+  .donutwrap{grid-template-columns:1fr !important}
+  .donutwrap svg{max-width:220px;margin:0 auto}
+  .hero h1{font-size:26px}
+  .hero-kpis{grid-template-columns:repeat(2,1fr)}
+  .hk .v{font-size:25px}
+  .flow-hero .fk{grid-template-columns:repeat(2,1fr)}
+  .flow-hero h2{font-size:23px}
+  .rings{grid-template-columns:repeat(3,1fr)}
+}
+
+:root{ --navy-bar:#0D1E39; --st-asis:#2F5DA8; --st-vend:#C99A00; --st-perd:#D64B4B; --st-pend:#b9c1cf; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --navy-bar:#8fa6cc; --st-asis:#4F7FD0; --st-vend:#B08700; --st-perd:#E06666; --st-pend:#44557a; } }
+:root[data-theme="dark"]{ --navy-bar:#8fa6cc; --st-asis:#4F7FD0; --st-vend:#B08700; --st-perd:#E06666; --st-pend:#44557a; }
+.stk{display:grid;gap:12px}
+.stk-row{display:grid;grid-template-columns:minmax(130px,34%) 1fr;gap:12px;align-items:center}
+.stk-bar{display:flex;align-items:center;gap:8px;height:28px}
+.stk-segs{display:flex;gap:2px;height:100%;flex:none}
+.stk-segs i{display:block;height:100%;min-width:3px}
+.stk-segs i:first-child{border-radius:0}
+.stk-segs i:last-child{border-radius:0 5px 5px 0}
+.stk-bar em{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums}
+.spark{width:120px;height:28px;display:block}
+.chip-f{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);white-space:nowrap}
+.kfacts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.kfacts div{background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.kfacts b{display:block;font-size:22px;font-weight:800;line-height:1.1}
+.kfacts span{font-size:12.5px;color:var(--text-2)}
+.muted-note{font-size:12.5px;color:var(--muted);margin-top:8px}
+@media (max-width:520px){ .stk-row{grid-template-columns:1fr;gap:4px} .kfacts{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <div class="brand"><span class="logo">E</span>ENTRELINGO GROUP · MARKETING</div>
+        <h1>Leads del contenido <span>orgánico</span></h1>
+        <p id="heroSub"></p>
+      </div>
+      <div class="controls">
+        <select id="period" aria-label="Periodo"></select>
+        <button class="btn" id="theme" type="button" aria-label="Cambiar tema">◐</button>
+      </div>
+    </div>
+    <div class="hero-kpis" id="heroKpis"></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Secciones"><div class="wrap" id="tabs" role="tablist"></div></nav>
+
+<main class="wrap">
+  <div class="note" id="periodNote"></div>
+  <div id="panels"></div>
+</main>
+
+<footer class="wrap">Fuentes: Google Analytics 4 (visitas y conversiones con UTM) y Bitrix24 (citas, asistencia y ventas). Este dashboard no muestra datos personales de los leads.</footer>
+<div id="tip" role="tooltip"></div>
+
+<script>
+(function(){
+  const D = window.DASHBOARD;
+  const panelsEl = document.getElementById("panels");
+  if(!D || !D.periodos || !D.periodos.length){
+    panelsEl.innerHTML = '<div class="card"><h2>No se encontraron datos</h2><p class="sub">Revisa el bloque de datos al inicio de index.html: puede faltar una coma, una llave o un corchete.</p></div>';
+    return;
+  }
+  const nf = new Intl.NumberFormat("es-CO");
+  const mf = new Intl.NumberFormat("es-CO",{minimumFractionDigits:2,maximumFractionDigits:2});
+  const num = v => v==null ? "—" : nf.format(v);
+  const money = v => v==null ? "—" : mf.format(v)+" "+D.moneda;
+  const pct = (a,b) => (a==null||b==null||b===0) ? null : a/b*100;
+  const fp = v => v==null ? "—" : (Math.round(v*10)/10).toString().replace(".",",")+" %";
+  const col = i => `var(--s${i})`;
+  const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const M=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  const pd = s => { const [y,m,d]=s.split("-").map(Number); return new Date(Date.UTC(y,m-1,d)); };
+  const iso = dt => dt.toISOString().slice(0,10);
+  const fd = s => { const d=pd(s); return `${d.getUTCDate()} ${M[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
+  const fdS = s => { const d=pd(s); return `${d.getUTCDate()} ${M[d.getUTCMonth()]}`; };
+  const flowById = id => D.flujos.find(f=>f.id===id);
+  const FONT = "font-family:Asap,system-ui,sans-serif";
+  const ESTADOS = [["asistieron_sin","Asistió","var(--st-asis)"],["ventas","Vendida","var(--st-vend)"],["pendientes","Pendiente","var(--st-pend)"],["perdidas","No asistió / cancelada","var(--st-perd)"]];
+
+  /* theme */
+  try{ const t=localStorage.getItem("el-theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+  document.getElementById("theme").onclick=()=>{
+    const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+    const nx=cur==="dark"?"light":"dark"; document.documentElement.dataset.theme=nx;
+    try{localStorage.setItem("el-theme",nx);}catch(e){}
+  };
+
+  /* tooltip */
+  const tip=document.getElementById("tip");
+  function moveTip(e){ const x=e.clientX,y=e.clientY,w=tip.offsetWidth,h=tip.offsetHeight; tip.style.left=Math.max(6,Math.min(x+14,innerWidth-w-8))+"px"; tip.style.top=(y-h-12<4?y+16:y-h-12)+"px"; }
+  function showTip(e,t){ tip.innerHTML=t; tip.style.opacity=1; moveTip(e); }
+  document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]"); if(el) showTip(e,el.getAttribute("data-tip"));});
+  document.addEventListener("mousemove",e=>{ if(e.target.closest("[data-tip]")) moveTip(e); });
+  document.addEventListener("mouseout",e=>{ if(e.target.closest("[data-tip]")) tip.style.opacity=0; });
+  document.addEventListener("click",e=>{const el=e.target.closest("[data-tip]"); if(el) showTip(e,el.getAttribute("data-tip")); else tip.style.opacity=0;});
+  addEventListener("scroll",()=>tip.style.opacity=0,{passive:true});
+  const tt = (title, rows) => esc(`<b>${esc(title)}</b>`+rows.map(r=>`<br>${esc(r)}`).join(""));
+
+  /* period selector */
+  const sel=document.getElementById("period");
+  sel.innerHTML=`<option value="all">Acumulado · todos los periodos</option>`+D.periodos.map((w,i)=>`<option value="${i}">${esc(w.etiqueta)}</option>`).join("");
+  sel.value = D.periodos.length===1 ? "0" : "all";
+  sel.onchange=render;
+
+  /* tabs */
+  const TABS=[["resumen","Resumen",null],...D.flujos.map(f=>[f.id,f.nombre,f.color]),["utms","Fuentes UTM",null],...(D.clientes?[["clientes","Clientes AustraliaPRO",null]]:[]),["datos","Datos",null]];
+  let active=(location.hash||"").slice(1); if(!TABS.some(t=>t[0]===active)) active="resumen";
+  const tabsEl=document.getElementById("tabs");
+  function drawTabs(){
+    tabsEl.innerHTML=TABS.map(([id,l,c])=>`<button class="tab" role="tab" data-t="${id}" aria-selected="${id===active}">${c?`<span class="dot" style="background:${col(c)}"></span>`:""}${esc(l)}</button>`).join("");
+    tabsEl.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{active=b.dataset.t; history.replaceState(null,"","#"+active); drawTabs(); showPanel(); scrollTo({top:document.querySelector(".tabs").offsetTop,behavior:"smooth"});});
+  }
+  function showPanel(){ document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.dataset.p===active)); }
+
+  /* aggregation */
+  const sum = (arr,k) => arr.reduce((a,b)=>a+(b[k]||0),0);
+  function flowTotals(periods,f){
+    const utms=periods.flatMap(p=>(p.utms||[]).filter(u=>u.flujo===f.id));
+    const citas=periods.flatMap(p=>(p.citas||[]).filter(c=>c.flujo===f.id));
+    const recs=periods.map(p=>(p.flujos||{})[f.id]||{});
+    const vExtra=recs.reduce((a,r)=>r.ventas!=null?(a??0)+r.ventas:a,null);
+    const ing=recs.reduce((a,r)=>r.ingresos!=null?(a??0)+r.ingresos:a,null);
+    const hasC=citas.length>0;
+    return { utms, citas,
+      visitas: utms.length?sum(utms,"visitas"):null, conversiones: utms.length?sum(utms,"conversiones"):null,
+      citasN: hasC?sum(citas,"citas"):null, asistieron: hasC?sum(citas,"asistieron"):null,
+      pendientes: hasC?sum(citas,"pendientes"):null, perdidas: hasC?sum(citas,"perdidas"):null,
+      ventas: (hasC?sum(citas,"ventas"):0) + (vExtra||0), ingresos: ing };
+  }
+  function notesFor(periods,key){ for(let k=periods.length-1;k>=0;k--){const n=periods[k].notas?.[key]; if(n&&n.analisis) return {...n, de: periods.length>1?periods[k].etiqueta:null};} return {}; }
+  function daily(periods,flowId){ const m=new Map(); periods.forEach(p=>(p.utms||[]).forEach(u=>{ if(!u.dias||(flowId&&u.flujo!==flowId)) return; const d0=pd(p.desde); u.dias.forEach((v,i)=>{ const k=iso(new Date(d0.getTime()+i*864e5)); m.set(k,(m.get(k)||0)+(v||0)); }); })); return m; }
+  function dateRange(periods){ const a=pd(periods[0].desde), b=pd(periods[periods.length-1].hasta); const out=[]; for(let t=a.getTime();t<=b.getTime();t+=864e5) out.push(iso(new Date(t))); return out; }
+  function weeks(dates){ const out=[]; let cur=null; dates.forEach(d=>{ const dow=(pd(d).getUTCDay()+6)%7; if(!cur||dow===0){ cur={desde:d,hasta:d,dias:[]}; out.push(cur);} cur.hasta=d; cur.dias.push(d); }); return out; }
+
+  /* charts */
+  function niceStep(max){ const raw=max/4; const p=Math.pow(10,Math.floor(Math.log10(raw||1))); const n=raw/p; return Math.max(1,(n<=1?1:n<=2?2:n<=5?5:10)*p); }
+  function donut(items,centerLabel){
+    const total=items.reduce((a,b)=>a+(b.value||0),0); const R=90,r=58,cx=110,cy=110; let a0=-Math.PI/2, paths="";
+    items.forEach(it=>{ if(!it.value) return; const a1=a0+it.value/total*Math.PI*2; const big=(a1-a0)>Math.PI?1:0; const p=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];
+      const [x0,y0]=p(a0,R),[x1,y1]=p(a1,R),[x2,y2]=p(a1,r),[x3,y3]=p(a0,r);
+      paths+=`<path class="hov" d="M${x0},${y0}A${R},${R} 0 ${big} 1 ${x1},${y1}L${x2},${y2}A${r},${r} 0 ${big} 0 ${x3},${y3}Z" fill="${it.color}" stroke="var(--surface)" stroke-width="3" data-tip="${tt(it.label,[`${num(it.value)} ${centerLabel} · ${fp(it.value/total*100)}`])}"/>`; a0=a1; });
+    const leg=items.map(it=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span class="dot" style="background:${it.color}"></span><span style="flex:1">${esc(it.label)}</span><b>${num(it.value)}</b><span class="pill">${fp(total?it.value/total*100:null)}</span></div>`).join("");
+    return `<div style="display:grid;grid-template-columns:minmax(150px,210px) 1fr;gap:18px;align-items:center" class="donutwrap"><svg viewBox="0 0 220 220" role="img" aria-label="${esc(centerLabel)}">${paths}<text x="110" y="110" text-anchor="middle" style="font-size:34px;font-weight:800;fill:var(--text);${FONT}">${num(total)}</text><text x="110" y="133" text-anchor="middle" class="lbl2">${esc(centerLabel)}</text></svg><div>${leg}</div></div>`;
+  }
+  function hbars(rows){
+    const max=Math.max(1,...rows.map(r=>r.value||0));
+    return `<div class="hb">`+rows.map(r=>`<div class="hb-row" data-tip="${r.tip||""}"><div class="hb-lab"><b>${esc(r.label)}</b>${r.sub?`<span>${esc(r.sub)}</span>`:""}</div>
+      <div class="hb-track"><i class="hov" style="width:${r.value?Math.max(1.5,(r.value/max)*100):0}%;background:${r.color}"></i><em>${r.text??num(r.value)}</em></div></div>`).join("")+`</div>`;
+  }
+  function stacked(rows){ // rows: {label, sub, c:{asistieron_sin,ventas,pendientes,perdidas}, total}
+    const max=Math.max(1,...rows.map(r=>r.total));
+    return `<div class="legend">${ESTADOS.map(([,l,c])=>`<span><span class="dot" style="background:${c}"></span>${l}</span>`).join("")}</div><div class="stk">`+rows.map(r=>{
+      const segs=ESTADOS.filter(([k])=>r.c[k]>0).map(([k,l,c])=>`<i class="hov" style="flex:${r.c[k]} 1 0;background:${c}" data-tip="${tt(r.label,[`${l}: ${num(r.c[k])} de ${num(r.total)}`])}"></i>`).join("");
+      return `<div class="stk-row"><div class="hb-lab"><b>${esc(r.label)}</b>${r.sub?`<span>${esc(r.sub)}</span>`:""}</div><div class="stk-bar"><div class="stk-segs" style="width:calc(${r.total/max*100}% - ${r.total/max*44}px)">${segs}</div><em>${num(r.total)}</em></div></div>`;
+    }).join("")+`</div>`;
+  }
+  const citaSegs = c => ({asistieron_sin:(c.asistieron||0)-(c.ventas||0), ventas:c.ventas||0, pendientes:c.pendientes||0, perdidas:c.perdidas||0});
+  function funnel(f,vals){
+    const st=f.etapas, L={visitas:"Visitas",citas:"Citas",asistieron:"Asistieron",ventas:"Ventas"};
+    const max=Math.max(1,...st.map(k=>vals[k]||0)); const w=560, sh=64, gap=34, h=st.length*sh+(st.length-1)*gap; let s="";
+    st.forEach((k,i)=>{ const v=vals[k]; const y=i*(sh+gap); const bw=v==null? w*0.5 : Math.max(46,(v/max)*w); const x=(w-bw)/2;
+      if(v==null){ s+=`<rect x="${x}" y="${y}" width="${bw}" height="${sh}" rx="12" fill="var(--surface-2)" stroke="var(--border)" stroke-dasharray="5 4"/><text x="${w/2}" y="${y+sh/2+5}" text-anchor="middle" class="lbl">${L[k]}: sin dato</text>`; }
+      else { const inside=bw>150;
+        s+=`<rect class="hov" x="${x}" y="${y}" width="${bw}" height="${sh}" rx="12" fill="${col(f.color)}" data-tip="${tt(L[k],[num(v)])}"/>`;
+        if(inside) s+=`<text x="${w/2}" y="${y+sh/2+2}" text-anchor="middle" style="fill:#fff;font-size:26px;font-weight:800;${FONT}">${num(v)}</text><text x="${w/2}" y="${y+sh/2+20}" text-anchor="middle" style="fill:#fff;font-size:13px;${FONT};opacity:.92">${L[k]}</text>`;
+        else s+=`<text x="${x+bw+12}" y="${y+sh/2-2}" class="lbl" style="font-size:22px;font-weight:800">${num(v)}</text><text x="${x+bw+12}" y="${y+sh/2+16}" class="lbl2">${L[k]}</text>`; }
+      if(i<st.length-1){ const r=pct(vals[st[i+1]],v); s+=`<path d="M${w/2-7},${y+sh+6} L${w/2+7},${y+sh+6} L${w/2},${y+sh+14} Z" fill="var(--muted)"/><text x="${w/2+16}" y="${y+sh+gap/2+5}" class="lbl2" style="font-size:14px">${r==null?"—":fp(r)} pasa a la siguiente etapa</text>`; }
+    });
+    return `<svg viewBox="-10 0 ${w+20} ${h}" role="img" aria-label="Embudo ${esc(f.nombre)}">${s}</svg>`;
+  }
+  function ring(value,label,color){
+    const r=42,c=2*Math.PI*r; const v=value==null?0:Math.min(100,value);
+    return `<div data-tip="${tt(label,[value==null?"Sin dato":fp(value)])}"><svg viewBox="0 0 110 110" style="max-width:130px;margin:0 auto"><circle cx="55" cy="55" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="11"/>
+      ${value==null?"":`<circle cx="55" cy="55" r="${r}" fill="none" stroke="${color}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${c*v/100} ${c}" transform="rotate(-90 55 55)"/>`}
+      <text x="55" y="61" text-anchor="middle" style="font-size:${value==null?15:20}px;font-weight:800;fill:var(--text);${FONT}">${value==null?"sin dato":fp(value)}</text></svg><div class="rl">${esc(label)}</div></div>`;
+  }
+  function columns(groups,series,opts={}){ // groups:[{label,sub}], series:[{name,color,values[]}]
+    const w=opts.w||1000,h=opts.h||300,m={t:28,r:10,b:44,l:44}; const iw=w-m.l-m.r, ih=h-m.t-m.b;
+    let max=0; series.forEach(s=>s.values.forEach(v=>{ if(v!=null) max=Math.max(max,v); }));
+    const step=niceStep(max||1), yMax=Math.ceil((max||1)/step)*step; const y=v=>m.t+ih-v/yMax*ih;
+    const gw=iw/groups.length; const bw=Math.min(opts.maxBar||54,(gw*0.74)/series.length-2); let s=`<g class="axis">`;
+    for(let v=0;v<=yMax;v+=step) s+=`<line x1="${m.l}" x2="${w-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${nf.format(v)}</text>`;
+    s+=`</g>`;
+    groups.forEach((g,i)=>{ const gx=m.l+i*gw+gw/2; const x0=gx-(bw*series.length+2*(series.length-1))/2;
+      series.forEach((se,j)=>{ const v=se.values[i]; const x=x0+j*(bw+2); if(v==null) return;
+        const yy=y(v), bh=y(0)-yy, rr=Math.min(4,bh);
+        s+=`<path class="hov" d="M${x},${y(0)} V${yy+rr} Q${x},${yy} ${x+rr},${yy} H${x+bw-rr} Q${x+bw},${yy} ${x+bw},${yy+rr} V${y(0)} Z" fill="${se.color}" data-tip="${tt(se.name,[`${g.label}${g.sub?" ("+g.sub+")":""}: ${num(v)}`])}"/>`;
+        if(opts.labels!==false && v>0) s+=`<text x="${x+bw/2}" y="${yy-7}" text-anchor="middle" class="lbl" style="font-size:13px">${num(v)}</text>`; });
+      if(!opts.everyN || i%opts.everyN===0) s+=`<text x="${gx}" y="${h-(g.sub?20:10)}" text-anchor="middle" class="lbl2">${esc(g.label)}</text>${g.sub?`<text x="${gx}" y="${h-4}" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;${FONT}">${esc(g.sub)}</text>`:""}`; });
+    return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(opts.aria||"Gráfica de columnas")}">${s}</svg>`;
+  }
+  function lines(dates,series){
+    const w=1000,h=300,m={t:20,r:14,b:34,l:44}; const iw=w-m.l-m.r, ih=h-m.t-m.b; const n=dates.length;
+    let max=0; series.forEach(s=>s.values.forEach(v=>max=Math.max(max,v||0)));
+    const step=niceStep(max||1), yMax=Math.ceil((max||1)/step)*step; const x=i=>m.l+(n===1?iw/2:i*iw/(n-1)); const y=v=>m.t+ih-v/yMax*ih;
+    let s=`<g class="axis">`; for(let v=0;v<=yMax;v+=step) s+=`<line x1="${m.l}" x2="${w-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${nf.format(v)}</text>`;
+    const ev=Math.ceil(n/12); dates.forEach((d,i)=>{ if(i%ev===0||i===n-1) s+=`<text x="${x(i)}" y="${h-10}" text-anchor="middle">${fdS(d)}</text>`; }); s+=`</g>`;
+    series.forEach(se=>{ s+=`<path d="${se.values.map((v,i)=>(i?"L":"M")+x(i)+","+y(v||0)).join(" ")}" fill="none" stroke="${se.color}" stroke-width="2.25" stroke-linejoin="round" stroke-linecap="round"/>`; });
+    s+=`<line class="xh" y1="${m.t}" y2="${m.t+ih}" stroke="var(--muted)" stroke-dasharray="3 3" opacity="0"/>`;
+    series.forEach((se,j)=>{ s+=`<circle class="pt" data-j="${j}" r="5" fill="${se.color}" stroke="var(--surface)" stroke-width="2" opacity="0"/>`; });
+    s+=`<rect class="hit" x="${m.l-10}" y="${m.t}" width="${iw+20}" height="${ih}" fill="transparent"/>`;
+    const id="ln"+Math.random().toString(36).slice(2,7);
+    setTimeout(()=>{ const svg=document.getElementById(id); if(!svg) return; const hit=svg.querySelector(".hit"), xh=svg.querySelector(".xh"), pts=svg.querySelectorAll(".pt");
+      const mv=e=>{ const r=svg.getBoundingClientRect(); const sx=(e.clientX-r.left)/r.width*w; let i=Math.round((sx-m.l)/(iw/Math.max(1,n-1))); i=Math.max(0,Math.min(n-1,i));
+        xh.setAttribute("x1",x(i)); xh.setAttribute("x2",x(i)); xh.setAttribute("opacity",1);
+        pts.forEach(p=>{ const se=series[+p.dataset.j]; p.setAttribute("cx",x(i)); p.setAttribute("cy",y(se.values[i]||0)); p.setAttribute("opacity",1); });
+        showTip(e, `<b>${fd(dates[i])}</b>`+series.map(se=>`<br><span class="dot" style="background:${se.color};width:9px;height:9px"></span> ${esc(se.name)}: <b>${num(se.values[i])}</b>`).join("")); };
+      hit.addEventListener("mousemove",mv); hit.addEventListener("click",mv);
+      hit.addEventListener("mouseleave",()=>{ xh.setAttribute("opacity",0); pts.forEach(p=>p.setAttribute("opacity",0)); tip.style.opacity=0; }); },0);
+    return `<svg id="${id}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Visitas por día">${s}</svg>`;
+  }
+  function spark(vals,color){
+    if(!vals||!vals.length) return `<span class="nd">—</span>`;
+    const w=120,h=28,max=Math.max(1,...vals); const x=i=>i*(w-2)/Math.max(1,vals.length-1)+1, y=v=>h-2-(v/max)*(h-5);
+    const d=vals.map((v,i)=>(i?"L":"M")+x(i).toFixed(1)+","+y(v).toFixed(1)).join(" ");
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d} L${x(vals.length-1)},${h} L1,${h} Z" fill="${color}" opacity=".18"/><path d="${d}" fill="none" stroke="${color}" stroke-width="1.6"/></svg>`;
+  }
+  function asBlock(n){
+    const sol=(n.solucion||[]).filter(Boolean);
+    return `<div class="as"><div class="card ana"><h3>🔎 Análisis</h3><p>${n.analisis?esc(n.analisis):'<span class="nd">Sin análisis registrado para este periodo.</span>'}</p>${n.de?`<div class="src">Análisis de: ${esc(n.de)}</div>`:""}</div>
+      <div class="card sol"><h3>✅ Solución</h3>${sol.length?`<ul>${sol.map(s=>`<li>${esc(s)}</li>`).join("")}</ul>`:'<span class="nd">Sin acciones registradas.</span>'}${n.fuente?`<div class="src">Fuente: ${esc(n.fuente)}</div>`:""}</div></div>`;
+  }
+  const flowChip = f => `<span class="chip-f"><span class="dot" style="background:${col(f.color)};width:9px;height:9px"></span>${esc(f.nombre)}</span>`;
+
+  /* render */
+  let trendMode="semana", utmFilter="all";
+  function render(){
+    const v=sel.value; const P=v==="all"?D.periodos:[D.periodos[+v]];
+    const first=P[0], last=P[P.length-1];
+    const T={}; D.flujos.forEach(f=>T[f.id]=flowTotals(P,f));
+    const G=k=>{let s=null; D.flujos.forEach(f=>{const x=T[f.id][k]; if(x!=null) s=(s??0)+x;}); return s;};
+    const allCitas=P.flatMap(p=>p.citas||[]), allUtms=P.flatMap(p=>p.utms||[]);
+
+    document.getElementById("heroSub").textContent=`${v==="all"?"Acumulado":first.etiqueta} · ${fd(first.desde)} – ${fd(last.hasta)} · Actualizado ${fd(D.actualizado)}`;
+    const nota=P.map(w=>w.nota).filter(Boolean).pop(); const pn=document.getElementById("periodNote");
+    pn.style.display=nota?"block":"none"; pn.innerHTML=`<b>Sobre este periodo:</b> ${esc(nota||"")}`;
+
+    document.getElementById("heroKpis").innerHTML=[
+      ["Visitas con UTM",num(G("visitas")),"GA4 · 3 flujos"],
+      ["Conversiones GA4",num(G("conversiones")),"formularios y reservas"],
+      ["Citas agendadas",num(G("citasN")),"Rayos X + Sesión"],
+      ["Asistieron",num(G("asistieron")),fp(pct(G("asistieron"),G("citasN")))+" de las citas"],
+      ["Ventas",num(G("ventas")),"en los 3 flujos",true],
+      ["Ingresos",G("ingresos")==null?"—":mf.format(G("ingresos")),D.moneda+" reportados"]
+    ].map(([l,val,h,acc])=>`<div class="hk ${acc?"accent":""}"><div class="l">${l}</div><div class="v">${val}</div><div class="h">${h}</div></div>`).join("");
+
+    let html="";
+    /* ===== RESUMEN ===== */
+    const byCuenta=new Map(); allCitas.forEach(c=>{ const k=c.cuenta==="—"?"Sin especificar":c.cuenta; const a=byCuenta.get(k)||{citas:0,asistieron:0,ventas:0,pendientes:0,perdidas:0}; ["citas","asistieron","ventas","pendientes","perdidas"].forEach(x=>a[x]+=c[x]||0); byCuenta.set(k,a); });
+    const cuentaRows=[...byCuenta.entries()].sort((a,b)=>b[1].citas-a[1].citas).map(([k,a])=>({label:k,sub:`${num(a.ventas)} ${a.ventas===1?"venta":"ventas"} · ${fp(pct(a.asistieron,a.citas))} asistencia`,c:citaSegs(a),total:a.citas}));
+    const cmp=D.flujos.map(f=>({f,d:T[f.id]}));
+    const mx=k=>Math.max(1,...cmp.map(r=>r.d[k]||0));
+    const cb=(val,max,c)=>val==null?`<span class="nd">—</span>`:`<div class="cellbar"><span>${num(val)}</span><i style="width:${Math.max(3,val/max*70)}px;background:${c}"></i></div>`;
+    html+=`<section class="panel" data-p="resumen">
+      <div class="grid g-6-4">
+        <div class="card"><h2>¿A qué flujo llega el tráfico orgánico?</h2><p class="sub">Visitas con UTM por flujo (GA4)</p>${donut(D.flujos.map(f=>({label:f.nombre,value:T[f.id].visitas||0,color:col(f.color)})),"visitas")}</div>
+        <div class="card"><h2>Ventas por flujo</h2><p class="sub">Ventas cerradas en el periodo</p>${hbars(D.flujos.map(f=>({label:f.nombre,sub:f.ventaDe,value:T[f.id].ventas||0,color:col(f.color),tip:tt(f.nombre,[`${num(T[f.id].ventas)} ventas`,T[f.id].ingresos!=null?money(T[f.id].ingresos):"Ingreso no reportado"])})))}
+          <div class="kfacts"><div><b>${num(G("ventas"))}</b><span>ventas</span></div><div><b>${fp(pct(G("ventas"),G("asistieron")))}</b><span>cierre sobre asistentes*</span></div><div><b>${G("ingresos")==null?"—":mf.format(G("ingresos"))}</b><span>${D.moneda} reportados</span></div></div>
+          <div class="muted-note">* Incluye la venta de Traducciones, que no pasa por cita.</div></div>
+      </div>
+      <div class="card" style="margin-top:18px"><div class="card-head"><div><h2>Visitas en el tiempo</h2><p class="sub">Visitas diarias con UTM por flujo (GA4)</p></div>
+        <div class="seg" id="trendSeg">${[["semana","Por semana"],["dia","Por día"]].map(([k,l])=>`<button data-m="${k}" aria-pressed="${k===trendMode}">${l}</button>`).join("")}</div></div>
+        <div class="legend">${D.flujos.map(f=>`<span><span class="dot" style="background:${col(f.color)}"></span>${esc(f.nombre)}</span>`).join("")}</div>
+        <div id="trendChart" style="overflow-x:auto"></div>
+        <div class="muted-note" id="trendNote"></div></div>
+      <div class="grid g2" style="margin-top:18px">
+        <div class="card"><h2>¿Quién trae las citas?</h2><p class="sub">Citas de Rayos X y Sesión de diagnóstico según la cuenta de origen</p>${stacked(cuentaRows)}</div>
+        <div class="card"><h2>Citas por canal</h2><p class="sub">Todos los orígenes de citas de ambos flujos</p>${hbars(Object.entries(allCitas.reduce((a,c)=>{a[c.canal]=(a[c.canal]||0)+c.citas; return a;},{})).sort((a,b)=>b[1]-a[1]).map(([k,val])=>({label:k,value:val,color:"var(--navy-bar)",tip:tt(k,[`${num(val)} citas`])})))}</div>
+      </div>
+      <div class="card" style="margin-top:18px"><h2>Comparativo de los tres flujos</h2><p class="sub">"—" = sin dato o no aplica</p>
+        <div class="table-scroll"><table style="min-width:820px"><thead><tr><th class="l">Flujo</th><th>Visitas</th><th>Conv. GA4</th><th>Citas</th><th>Asistieron</th><th>Pendientes</th><th>Ventas</th><th>Tasa de venta*</th><th>Ingresos</th></tr></thead><tbody>
+        ${cmp.map(({f,d})=>{const rate=f.etapas.includes("citas")?pct(d.ventas,d.citasN):pct(d.ventas,d.visitas); return `<tr><td class="l"><span style="display:inline-flex;align-items:center;gap:8px;font-weight:700"><span class="dot" style="background:${col(f.color)}"></span>${esc(f.nombre)}</span><div class="nd" style="font-size:12px">${esc(f.marca)}</div></td>
+          <td>${cb(d.visitas,mx("visitas"),col(f.color))}</td><td>${num(d.conversiones)}</td><td>${cb(d.citasN,mx("citasN"),col(f.color))}</td><td>${num(d.asistieron)}</td><td>${num(d.pendientes)}</td><td>${cb(d.ventas,mx("ventas"),col(f.color))}</td><td><b>${fp(rate)}</b></td><td>${money(d.ingresos)}</td></tr>`;}).join("")}
+        <tr class="tot"><td class="l">Total</td><td>${num(G("visitas"))}</td><td>${num(G("conversiones"))}</td><td>${num(G("citasN"))}</td><td>${num(G("asistieron"))}</td><td>${num(G("pendientes"))}</td><td>${num(G("ventas"))}</td><td></td><td>${money(G("ingresos"))}</td></tr>
+        </tbody></table></div><div class="src">* Rayos X y Sesión: ventas ÷ citas. Traducciones: ventas ÷ visitas.</div></div>
+      ${asBlock(notesFor(P,"resumen"))}
+    </section>`;
+
+    /* ===== FLUJOS ===== */
+    D.flujos.forEach(f=>{
+      const d=T[f.id], hasC=d.citasN!=null;
+      const kp = hasC ? [["Visitas GA4",num(d.visitas)],["Conv. GA4",num(d.conversiones)],["Citas",num(d.citasN)],["Asistieron",num(d.asistieron)],["Ventas",num(d.ventas)]]
+                      : [["Visitas GA4",num(d.visitas)],["Conv. GA4",num(d.conversiones)],["Ventas",num(d.ventas)],["Ingresos",d.ingresos==null?"—":mf.format(d.ingresos)],["Ticket prom.",d.ventas&&d.ingresos!=null?mf.format(d.ingresos/d.ventas):"—"]];
+      const rings = hasC ? [ring(pct(d.conversiones,d.visitas),"Conversión GA4 sobre visitas",col(f.color)),ring(pct(d.asistieron,d.citasN),"Asistencia a la cita",col(f.color)),ring(pct(d.ventas,d.asistieron),"Cierre sobre asistentes",col(f.color))]
+                         : [ring(pct(d.ventas,d.visitas),"Venta sobre visitas",col(f.color)),ring(pct(d.conversiones,d.visitas),"Conversión GA4",col(f.color)),ring(null,"Cotizaciones enviadas",col(f.color))];
+      const byCanal=new Map(); d.utms.forEach(u=>{const k=u.canal+(u.cuenta&&u.cuenta!=="—"?" · "+u.cuenta:""); const a=byCanal.get(k)||{v:0,c:0,n:0}; a.v+=u.visitas; a.c+=u.conversiones; a.n++; byCanal.set(k,a);});
+      const canalRows=[...byCanal.entries()].sort((a,b)=>b[1].v-a[1].v).map(([k,a])=>({label:k,sub:`${num(a.c)} conv. GA4 · ${a.n} ${a.n===1?"enlace":"enlaces"}`,value:a.v,color:col(f.color),tip:tt(k,[`${num(a.v)} visitas`,`${num(a.c)} conversiones · ${fp(pct(a.c,a.v))}`])}));
+      const dates=dateRange(P), dm=daily(P,f.id);
+      const citasRows=[...d.citas].sort((a,b)=>b.citas-a.citas);
+      const estadosCols=[...new Set(citasRows.flatMap(c=>Object.keys(c.estados||{})))];
+      html+=`<section class="panel" data-p="${f.id}">
+        <div class="flow-hero" style="background:linear-gradient(135deg,${col(f.color)},var(--navy))">
+          <span class="pill" style="background:rgba(255,255,255,.2);color:#fff">${esc(f.marca)}</span>
+          <h2>${esc(f.nombre)}</h2><p>${esc(f.descripcion)} · se vende: ${esc(f.ventaDe)}</p>
+          <div class="fk">${kp.map(([l,x])=>`<div><div class="v">${x}</div><div class="l">${l}</div></div>`).join("")}</div>
+        </div>
+        <div class="grid g2">
+          <div class="card"><h2>Embudo</h2><p class="sub">${hasC?"De visita a venta":"De visita a venta"}</p>${funnel({...f,etapas:hasC?["visitas","citas","asistieron","ventas"]:f.etapas},{visitas:d.visitas,citas:d.citasN,asistieron:d.asistieron,ventas:d.ventas})}
+            ${hasC?`<div class="muted-note">Las visitas vienen de GA4 y las citas de Bitrix24: son fuentes distintas, por eso el paso de visita a cita es una referencia.</div>`:""}</div>
+          <div class="grid" style="gap:18px;align-content:start">
+            <div class="card"><h2>Tasas clave</h2><p class="sub">Porcentaje de paso entre etapas</p><div class="rings">${rings.join("")}</div></div>
+            <div class="card"><h2>¿De dónde llegan las visitas?</h2><p class="sub">Visitas con UTM agrupadas por canal y cuenta</p>${canalRows.length?hbars(canalRows):'<p class="nd">Sin UTMs registradas.</p>'}</div>
+          </div>
+        </div>
+        ${hasC?`<div class="grid g-6-4" style="margin-top:18px">
+          <div class="card"><h2>Citas por origen</h2><p class="sub">Estado de cada cita según su origen (Bitrix24)</p>${stacked(citasRows.map(c=>({label:c.origen,sub:`${c.cuenta&&c.cuenta!=="—"?c.cuenta+" · ":""}${c.canal}`,c:citaSegs(c),total:c.citas})))}</div>
+          <div class="card"><h2>Detalle de citas</h2><p class="sub">${f.id==="rayos_x"?"Personas únicas con origen Instagram y YouTube":"Incluye el pop up"}</p>
+            <div class="table-scroll"><table><thead><tr><th class="l">Origen</th><th>Citas</th><th>Asist.</th><th>Ventas</th><th>% asist.</th></tr></thead><tbody>
+            ${citasRows.map(c=>`<tr><td class="l"><b>${esc(c.origen)}</b><div class="nd" style="font-size:12px">${esc(c.cuenta&&c.cuenta!=="—"?c.cuenta+" · ":"")}${esc(c.canal)}</div></td><td>${num(c.citas)}</td><td>${num(c.asistieron)}</td><td>${c.ventas?`<b>${num(c.ventas)}</b>`:"0"}</td><td>${fp(pct(c.asistieron,c.citas))}</td></tr>`).join("")}
+            <tr class="tot"><td class="l">Total</td><td>${num(d.citasN)}</td><td>${num(d.asistieron)}</td><td>${num(sum(citasRows,"ventas"))}</td><td>${fp(pct(d.asistieron,d.citasN))}</td></tr></tbody></table></div></div>
+        </div>`:""}
+        ${estadosCols.length?`<div class="card" style="margin-top:18px"><h2>Estado de consultoría en Bitrix24</h2><p class="sub">Asistió = Ejecutada + Consultoría Migratoria · Pendiente = Invitado + Programada + Llamada · No asistió = Cancelado + Inasistente</p>
+          <div class="table-scroll"><table style="min-width:760px"><thead><tr><th class="l">Origen</th>${estadosCols.map(e=>`<th>${esc(e)}</th>`).join("")}<th>Total</th></tr></thead><tbody>
+          ${citasRows.map(c=>`<tr><td class="l"><b>${esc(c.origen)}</b></td>${estadosCols.map(e=>`<td>${c.estados&&c.estados[e]?num(c.estados[e]):'<span class="nd">·</span>'}</td>`).join("")}<td><b>${num(c.citas)}</b></td></tr>`).join("")}
+          <tr class="tot"><td class="l">Total</td>${estadosCols.map(e=>`<td>${num(citasRows.reduce((a,c)=>a+((c.estados||{})[e]||0),0))}</td>`).join("")}<td>${num(d.citasN)}</td></tr></tbody></table></div></div>`:""}
+        <div class="card" style="margin-top:18px"><h2>Visitas por día</h2><p class="sub">Visitas diarias con UTM hacia ${esc(f.nombre)} (GA4)</p>
+          <div style="overflow-x:auto">${columns(dates.map(x=>({label:fdS(x)})),[{name:f.nombre,color:col(f.color),values:dates.map(x=>dm.has(x)?dm.get(x):null)}],{h:260,maxBar:30,everyN:Math.ceil(dates.length/12),aria:"Visitas por día"}).replace("<svg ",'<svg style="min-width:620px" ')}</div>
+          ${d.utms.some(u=>!u.dias)?`<div class="muted-note">No incluye ${d.utms.filter(u=>!u.dias).map(u=>esc(u.nombre)).join(", ")}: no hay dato diario.</div>`:""}</div>
+        ${asBlock(notesFor(P,f.id))}
+      </section>`;
+    });
+
+    /* ===== UTMS ===== */
+    const us=allUtms.filter(u=>utmFilter==="all"||u.flujo===utmFilter).map(u=>({...u})).sort((a,b)=>b.visitas-a.visitas);
+    const merged=[]; us.forEach(u=>{ const e=merged.find(m=>m.flujo===u.flujo&&m.utm===u.utm&&m.destino===u.destino); if(e){ e.visitas+=u.visitas; e.conversiones+=u.conversiones; e.ingresos+=(u.ingresos||0); e.dias=(e.dias&&u.dias)?e.dias.concat(u.dias):(e.dias||u.dias);} else merged.push({...u,ingresos:u.ingresos||0}); });
+    const maxU=Math.max(1,...merged.map(u=>u.visitas));
+    html+=`<section class="panel" data-p="utms">
+      <div class="card"><div class="card-head"><div><h2>Todas las UTMs</h2><p class="sub">${merged.length} enlaces · ${num(sum(merged,"visitas"))} visitas · ${num(sum(merged,"conversiones"))} conversiones GA4</p></div>
+        <div class="seg" id="utmSeg">${[["all","Todos"],...D.flujos.map(f=>[f.id,f.nombre])].map(([k,l])=>`<button data-u="${k}" aria-pressed="${k===utmFilter}">${esc(l)}</button>`).join("")}</div></div>
+        <div class="table-scroll"><table style="min-width:980px"><thead><tr><th class="l">Enlace</th><th class="l">Flujo</th><th class="l">Cuenta</th><th class="l">Tendencia diaria</th><th>Visitas</th><th>Conv. GA4</th><th>Tasa conv.</th><th>Ingresos</th></tr></thead><tbody>
+        ${merged.map(u=>{const f=flowById(u.flujo); return `<tr${u.visitas===0?' style="opacity:.6"':""}><td class="l"><b>${esc(u.nombre)}</b><div><code>${esc(u.utm)}</code></div><div class="nd" style="font-size:12px">${esc(u.destino||"")}${u.nota?" · "+esc(u.nota):""}</div></td><td class="l">${flowChip(f)}</td><td class="l">${esc(u.cuenta||"—")}</td><td class="l">${spark(u.dias,col(f.color))}</td>
+          <td><div class="cellbar"><span>${num(u.visitas)}</span><i style="width:${Math.max(u.visitas?3:0,u.visitas/maxU*70)}px;background:${col(f.color)}"></i></div></td><td>${num(u.conversiones)}</td><td>${u.visitas?fp(pct(u.conversiones,u.visitas)):"—"}</td><td>${u.ingresos?money(u.ingresos):"—"}</td></tr>`;}).join("")}
+        <tr class="tot"><td class="l">Total</td><td></td><td></td><td></td><td>${num(sum(merged,"visitas"))}</td><td>${num(sum(merged,"conversiones"))}</td><td>${fp(pct(sum(merged,"conversiones"),sum(merged,"visitas")))}</td><td>${money(sum(merged,"ingresos"))}</td></tr>
+        </tbody></table></div><div class="muted-note">Las filas en gris no registraron visitas en el periodo.</div></div>
+      <div class="grid g2" style="margin-top:18px">
+        <div class="card"><h2>Visitas por canal</h2><p class="sub">Suma de visitas de los enlaces filtrados</p>${hbars(Object.entries(merged.reduce((a,u)=>{a[u.canal]=(a[u.canal]||0)+u.visitas;return a;},{})).sort((a,b)=>b[1]-a[1]).map(([k,val])=>({label:k,value:val,color:"var(--navy-bar)",tip:tt(k,[`${num(val)} visitas`])})))}</div>
+        <div class="card"><h2>Visitas por cuenta</h2><p class="sub">Mafe frente a Entrelingo</p>${hbars(Object.entries(merged.reduce((a,u)=>{const k=u.cuenta||"—";a[k]=(a[k]||0)+u.visitas;return a;},{})).sort((a,b)=>b[1]-a[1]).map(([k,val])=>({label:k,value:val,color:"var(--navy-bar)",tip:tt(k,[`${num(val)} visitas`])})))}</div>
+      </div>
+    </section>`;
+
+    /* ===== CLIENTES AUSTRALIAPRO ===== */
+    if(D.clientes){
+      const K=D.clientes, R=K.registros||[];
+      const tot=sum(R,"valor"), comp=R.filter(r=>r.status==="Completada"), asig=R.filter(r=>r.status!=="Completada");
+      const byF=new Map(); R.forEach(r=>{const a=byF.get(r.fuente)||{n:0,t:0,c:0,a:0}; a.n++; a.t+=r.valor; if(r.status==="Completada") a.c+=r.valor; else a.a+=r.valor; byF.set(r.fuente,a);});
+      const fRows=[...byF.entries()].sort((x,y)=>y[1].t-x[1].t||y[1].n-x[1].n);
+      const byM=new Map(); R.forEach(r=>{const [d,m,y]=r.fecha.split("/").map(Number); const k=`${y}-${String(m).padStart(2,"0")}`; const a=byM.get(k)||{n:0,t:0,c:0,a:0}; a.n++; a.t+=r.valor; if(r.status==="Completada") a.c+=r.valor; else a.a+=r.valor; byM.set(k,a);});
+      const mk=[...byM.keys()].sort(); const MES=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+      const usd=v=>"$"+nf.format(Math.round(v));
+      const segBar=(c,a,max)=>`<div class="stk-bar"><div class="stk-segs" style="width:calc(${(c+a)/max*100}% - ${(c+a)/max*60}px)">${c?`<i class="hov" style="flex:${c} 1 0;background:var(--st-asis)" data-tip="${tt("Completadas",[usd(c)+" "+D.moneda])}"></i>`:""}${a?`<i class="hov" style="flex:${a} 1 0;background:var(--st-pend)" data-tip="${tt("Asignadas (pendientes)",[usd(a)+" "+D.moneda])}"></i>`:""}</div><em>${usd(c+a)}</em></div>`;
+      const maxF=Math.max(1,...fRows.map(([,a])=>a.t));
+      html+=`<section class="panel" data-p="clientes">
+        <div class="flow-hero" style="background:linear-gradient(135deg,var(--s1),var(--navy))">
+          <span class="pill" style="background:rgba(255,255,255,.2);color:#fff">AustraliaPRO</span>
+          <h2>Leads convertidos en clientes</h2><p>${esc(K.descripcion)}</p>
+          <div class="fk">${[["Clientes",num(R.length)],["Total pagado",usd(tot)],["Completadas",usd(sum(comp,"valor"))],["Asignadas",usd(sum(asig,"valor"))],["Ticket promedio",R.length?usd(tot/R.length):"—"]].map(([l,x])=>`<div><div class="v">${x}</div><div class="l">${l}</div></div>`).join("")}</div>
+        </div>
+        <div class="grid g2">
+          <div class="card"><h2>Ingresos por fuente de ingreso</h2><p class="sub">Valor pagado (${D.moneda}) por fuente · barra en gris = asignada, pendiente de completar</p>
+            <div class="legend"><span><span class="dot" style="background:var(--st-asis)"></span>Completada</span><span><span class="dot" style="background:var(--st-pend)"></span>Asignada</span></div>
+            <div class="stk">${fRows.map(([k,a])=>`<div class="stk-row"><div class="hb-lab"><b>${esc(k)}</b><span>${a.n} ${a.n===1?"cliente":"clientes"} · ticket ${usd(a.t/a.n)}</span></div>${segBar(a.c,a.a,maxF)}</div>`).join("")}</div></div>
+          <div class="card"><h2>¿Cuántos clientes trae cada fuente?</h2><p class="sub">Participación en número de clientes</p>${donut(fRows.map(([k,a],i)=>({label:k,value:a.n,color:({"Rayos X":"var(--s1)","SkillsPRO":"var(--s2)","Instagram Mafe":"var(--st-vend)","Instagram":"var(--navy-bar)","TikTok":"var(--st-asis)","Facebook":"var(--st-perd)","Webinar":"var(--s3)"})[k]||"var(--muted)"})),"clientes")}</div>
+        </div>
+        <div class="card" style="margin-top:18px"><h2>Clientes e ingresos por mes de registro</h2><p class="sub">Según la fecha en que el lead se registró</p>
+          <div style="overflow-x:auto">${columns(mk.map(k=>{const [y,m]=k.split("-"); const a=byM.get(k); return {label:`${MES[+m-1]} ${y}`,sub:`${a.n} ${a.n===1?"cliente":"clientes"}`};}),[{name:"Ingresos "+D.moneda,color:"var(--s1)",values:mk.map(k=>Math.round(byM.get(k).t))}],{h:280,maxBar:70,aria:"Ingresos por mes"}).replace("<svg ",'<svg style="min-width:560px" ')}</div></div>
+        <div class="grid g2" style="margin-top:18px">
+          <div class="card"><h2>Resumen por fuente</h2><p class="sub">Consultoría Estándar</p>
+            <div class="table-scroll"><table><thead><tr><th class="l">Fuente</th><th>Clientes</th><th>Completadas</th><th>Asignadas</th><th>Total</th></tr></thead><tbody>
+            ${fRows.map(([k,a])=>`<tr><td class="l"><b>${esc(k)}</b></td><td>${a.n}</td><td>${a.c?usd(a.c):"—"}</td><td>${a.a?usd(a.a):"—"}</td><td><b>${usd(a.t)}</b></td></tr>`).join("")}
+            <tr class="tot"><td class="l">Total</td><td>${R.length}</td><td>${usd(sum(comp,"valor"))}</td><td>${usd(sum(asig,"valor"))}</td><td>${usd(tot)}</td></tr></tbody></table></div></div>
+          <div class="card"><h2>Detalle de clientes</h2><p class="sub">Sin nombres: el sitio es público</p>
+            <div class="table-scroll" style="max-height:520px;overflow-y:auto"><table><thead><tr><th class="l">#</th><th class="l">Registro</th><th class="l">Fuente</th><th>Valor</th><th class="l">Status</th></tr></thead><tbody>
+            ${R.map(r=>`<tr><td class="l">${r.n}</td><td class="l">${esc(r.fecha)}</td><td class="l">${esc(r.fuente)}</td><td>${usd(r.valor)}</td><td class="l"><span class="chip-f"><span class="dot" style="background:${r.status==="Completada"?"var(--st-asis)":"var(--st-pend)"};width:9px;height:9px"></span>${esc(r.status)}</span></td></tr>`).join("")}
+            </tbody></table></div></div>
+        </div>
+        ${asBlock(K.notas||{})}
+      </section>`;
+    }
+
+    /* ===== DATOS ===== */
+    html+=`<section class="panel" data-p="datos">
+      <div class="card"><h2>Registro por periodo</h2><p class="sub">Totales calculados a partir de las UTMs y las citas de cada periodo</p>
+        <div class="table-scroll"><table style="min-width:880px"><thead><tr><th class="l">Periodo</th><th class="l">Flujo</th><th>Visitas</th><th>Conv. GA4</th><th>Citas</th><th>Asistieron</th><th>Pendientes</th><th>Ventas</th><th>Ingresos</th></tr></thead><tbody>
+        ${D.periodos.map(p=>D.flujos.map((f,j)=>{const d=flowTotals([p],f); return `<tr><td class="l">${j===0?`<b>${esc(p.etiqueta)}</b><div class="nd" style="font-size:12px">${fd(p.desde)} – ${fd(p.hasta)}</div>`:""}</td><td class="l">${flowChip(f)}</td><td>${num(d.visitas)}</td><td>${num(d.conversiones)}</td><td>${num(d.citasN)}</td><td>${num(d.asistieron)}</td><td>${num(d.pendientes)}</td><td>${num(d.ventas)}</td><td>${money(d.ingresos)}</td></tr>`;}).join("")).join("")}
+        </tbody></table></div></div>
+      <div class="card howto" style="margin-top:18px"><h2>Cómo actualizar</h2><p class="sub">Todo se edita en el bloque de datos al inicio de <code>index.html</code></p>
+        <ol><li>En GitHub, abre <code>index.html</code> y haz clic en el lápiz para editar.</li>
+        <li>Copia la <b>PLANTILLA DE PERIODO</b> y pégala al final de <code>periodos</code>, con una coma antes.</li>
+        <li>En <code>utms</code> pon cada enlace con sus visitas, conversiones y, si lo tienes, el arreglo <code>dias</code> (una cifra por día desde la fecha <code>desde</code>).</li>
+        <li>En <code>citas</code> pon cada origen con sus citas, asistieron, ventas, pendientes y perdidas.</li>
+        <li>En <code>flujos</code> del periodo registra ventas sin cita (Traducciones) e ingresos en AUD.</li>
+        <li>Escribe el análisis y la solución, cambia <code>actualizado</code> y haz <b>Commit changes</b>.</li></ol>
+        <p class="muted-note">No pegues nombres, correos ni teléfonos de los leads: el enlace de GitHub Pages es público.</p></div>
+    </section>`;
+
+    panelsEl.innerHTML=html;
+    drawTrend(P); showPanel();
+    const seg=document.getElementById("trendSeg");
+    seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{trendMode=b.dataset.m; seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b)); drawTrend(P);});
+    document.querySelectorAll("#utmSeg button").forEach(b=>b.onclick=()=>{utmFilter=b.dataset.u; render();});
+  }
+  function drawTrend(P){
+    const dates=dateRange(P); const dms=D.flujos.map(f=>daily(P,f.id));
+    const el=document.getElementById("trendChart"); let note="";
+    if(trendMode==="dia"){
+      el.innerHTML=lines(dates,D.flujos.map((f,j)=>({name:f.nombre,color:col(f.color),values:dates.map(x=>dms[j].get(x)||0)}))).replace("<svg ",'<svg style="min-width:620px" ');
+    } else {
+      const wk=weeks(dates); const last=wk[wk.length-1]; const partial=last.dias.length<7;
+      el.innerHTML=columns(wk.map((w,i)=>({label:`Semana ${i+1}`,sub:`${fdS(w.desde)} – ${fdS(w.hasta)}${i===wk.length-1&&partial?" *":""}`})),D.flujos.map((f,j)=>({name:f.nombre,color:col(f.color),values:wk.map(w=>w.dias.reduce((a,x)=>a+(dms[j].get(x)||0),0))})),{aria:"Visitas por semana"}).replace("<svg ",'<svg style="min-width:620px" ');
+      if(partial) note="* Semana incompleta. ";
+    }
+    const noDaily=P.flatMap(p=>p.utms||[]).filter(u=>!u.dias&&u.visitas);
+    if(noDaily.length) note+=`No incluye ${noDaily.map(u=>`${esc(u.nombre)} (${num(u.visitas)} visitas)`).join(", ")}: no hay dato diario.`;
+    document.getElementById("trendNote").innerHTML=note;
+  }
+
+  drawTabs(); render();
+})();
+</script>
+</body>
+</html>
